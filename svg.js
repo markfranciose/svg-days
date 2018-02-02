@@ -2,8 +2,8 @@
 
 // creates a 'canvas' svgElement
 let svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-svgElement.setAttribute("width", "400px");
-svgElement.setAttribute("height", "400px");
+svgElement.setAttribute("width", "900px");
+svgElement.setAttribute("height", "900px");
 document.querySelector("body").appendChild(svgElement);
 
 // rectangle
@@ -15,9 +15,6 @@ rectangle.setAttribute("height", "200px");
 //svgElement.appendChild(rectangle);
 
 // rectangle2
-
-
-
 
 let rectb = document.createElementNS("http://www.w3.org/2000/svg", "rect") 
 rectb.setAttribute("fill", "rgba(0, 111, 207, 1.0)");
@@ -66,23 +63,35 @@ const makeRect = configs => {
 	let xCord = configs.leftCorner[0]
 	let yCord = configs.leftCorner[1]
 	rectangle.setAttribute("fill", configs.color);
-	rectangle.setAttribute("height", 20);
-	rectangle.setAttribute("width", 20); 
+	rectangle.setAttribute("height", configs.height);
+	rectangle.setAttribute("width", configs.width); 
 	rectangle.setAttribute("rx", configs.corners);
 	rectangle.setAttribute("ry", configs.corners);
 	rectangle.setAttribute("x", xCord);
 	rectangle.setAttribute("y", yCord);
+	rectangle.setAttribute("id", "test");
 	return rectangle;
 }
 
-let settings = {color: "red", leftCorner: [100,30], corners: 2}
-
+let settings = {color: "red", leftCorner: [100,30], corners: 2, height:20, width:20}
+let type2 = {
+	color: "blue",
+	leftCorner: [101,31],
+	corners: 2,
+	height: 18,
+	width: 18
+};
 let newRect = makeRect(settings);
 
 svgElement.appendChild(newRect);
 
-for (let i = 0; i < 10; i += 1) {
-	settings.leftCorner[1] += 25;
-	let newRect = makeRect(settings);
-	svgElement.appendChild(newRect);
-}
+ const repeatX = (object, number, spacing) => {
+	for (let i = 0; i < number; i += 1) {
+		let newObject = makeRect(object);
+		object.leftCorner[0] += ( newObject.width.baseVal.value + spacing)
+		svgElement.appendChild(newObject);
+	} 
+ };
+
+repeatX(settings, 20, 2);
+repeatX(type2, 20, 4);
